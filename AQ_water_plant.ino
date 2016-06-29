@@ -17,6 +17,8 @@
  #define BUTTON 7
 
  int val = 0; 
+ 
+ int incomingByte = 0;
 
 /*メール送信関数
 void MailAlarm()
@@ -31,7 +33,9 @@ void setup (){
     pinMode(LPin, OUTPUT); //LED用ピン動作を入力か出力に設定します。 
 
     pinMode(BUTTON, INPUT);
-
+    
+    
+    Serial.begin(9600); //9600bps(port)
 }
 
 void loop (){
@@ -48,8 +52,13 @@ void loop (){
 
     val = digitalRead(BUTTON);
     
-    if(val == HIGH){
+//    if(val == HIGH){ //button de ugokasu
+  incomingByte = Serial.read();
+ // Serial.print(incomingByte, DEC);
+  if(incomingByte > 0){
     digitalWrite(MotorPin,HIGH); //MPin番ピンの出力をHIGH = 5Vにする
+    Serial.println("dekita!!!!!");
+    delay(1000);
     }else{
     //delay(Motortime);            //Mtime秒待つ
     digitalWrite(MotorPin,LOW);  //MPin番ピンの出力をLOW = 0Vにする
